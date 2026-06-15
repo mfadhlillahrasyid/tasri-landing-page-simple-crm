@@ -1,0 +1,133 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.font-google,
+.font-google * {
+    font-family: 'Google Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.font-poppins,
+.font-poppins * {
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.tasri-swiper {
+    width: 100%;
+    padding-bottom: 2rem;
+}
+
+.tasri-swiper .swiper-slide {
+    height: auto;
+}
+
+.tasri-swiper .swiper-slide img {
+    display: block;
+}
+
+.js-reels-testimoni-swiper.tasri-swiper {
+    padding-bottom: 0;
+}
+
+.harvest-gallery-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+
+.harvest-gallery-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reels-testimoni-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: #0f172a;
+}
+
+.reels-testimoni-loader {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.16) 45%, transparent 70%),
+        linear-gradient(180deg, #1e293b, #020617);
+    background-size: 220% 100%, 100% 100%;
+    animation: reels-testimoni-pulse 1.4s ease-in-out infinite;
+}
+
+.reels-testimoni-embed {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.reels-testimoni-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem 0;
+}
+
+.reels-testimoni-nav-button {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.reels-testimoni-nav-button:hover {
+    border-color: #1d4ed8;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.reels-testimoni-nav-button.swiper-button-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+[data-accordion-panel] {
+    grid-template-rows: 0fr;
+}
+
+[data-accordion-panel].is-open {
+    grid-template-rows: 1fr;
+}
+
+[data-accordion-icon] {
+    transition: transform 300ms ease;
+}
+
+[data-accordion-item][data-accordion-expanded="true"] [data-accordion-icon] {
+    transform: rotate(180deg);
+}
+
+@keyframes reels-testimoni-pulse {
+    from {
+        background-position: 180% 0, 0 0;
+    }
+
+    to {
+        background-position: -40% 0, 0 0;
+    }
+}
