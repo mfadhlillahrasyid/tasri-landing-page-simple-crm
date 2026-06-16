@@ -4,18 +4,23 @@ function initStickyCta() {
 
     if (!cta || !leadForm) return;
 
-    const observer = new IntersectionObserver(
-        ([entry]) => {
-            if (entry.isIntersecting) {
-                cta.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
-            } else {
-                cta.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
-            }
-        },
-        { threshold: 0.1 }
-    );
+    const hide = () => cta.classList.add('translate-y-full', 'opacity-0', 'pointer-events-none');
+    const show = () => cta.classList.remove('translate-y-full', 'opacity-0', 'pointer-events-none');
 
-    observer.observe(leadForm);
+    hide();
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const formTop = leadForm.getBoundingClientRect().top + scrollY;
+
+        if (scrollY < 50) {
+            hide();
+        } else if (scrollY >= formTop) {
+            hide();
+        } else {
+            show();
+        }
+    }, { passive: true });
 }
 
 document.addEventListener('DOMContentLoaded', initStickyCta);

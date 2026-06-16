@@ -43,12 +43,14 @@
             src="https://www.facebook.com/tr?id=4297354490585334&ev=PageView&noscript=1" alt="">
     </noscript>
     <main class="max-w-md mx-auto bg-white min-h-screen overflow-hidden">
-        <img src="<?= e(url('/assets/images/heroBanner.webp')) ?>" alt="Rumah bebas desain Taman Asoka Asri di Medan"
-            width="1080" height="1716" fetchpriority="high" decoding="async"
-            class="relative z-10 w-full h-auto object-cover">
+        <div id="hero">
+            <img src="<?= e(url('/assets/images/heroBanner.webp')) ?>"
+                alt="Rumah bebas desain Taman Asoka Asri di Medan" width="1080" height="1716" fetchpriority="high"
+                decoding="async" class="relative z-10 w-full h-auto object-cover">
+        </div>
 
         <!-- Agitation -->
-        <section id="hero" class="relative z-10 p-8 flex flex-col gap-8 -mt-12">
+        <section id="agitation" class="relative z-10 p-8 flex flex-col gap-8 -mt-12">
             <div class="flex flex-col gap-4">
                 <h1 class="text-2xl font-medium tracking-tight leading-snug ">
                     <span class="bg-blue-700 px-2 rounded-sm text-white text-2xl">Mau Punya Rumah Impian</span> Tapi
@@ -422,8 +424,8 @@
             class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md z-50 transition-all duration-300 bg-white/30 backdrop-blur-lg">
             <div class="flex items-center justify-between py-3 px-4">
                 <div class="flex flex-col">
-                    <h4 class="text-xl font-medium tracking-tight">Info Harga & Brosur</h4>
-                    <p class="text-sm text-slate-600">Gratis Konsultasi!</p>
+                    <h4 class="text-lg sm:text-xl font-medium tracking-tight">Info Harga & Brosur</h4>
+                    <p class="text-xs sm:text-sm text-slate-600">Gratis Konsultasi!</p>
                 </div>
 
                 <a href="#lead-form"
