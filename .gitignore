@@ -1,0 +1,24 @@
+# 1. File Uploads (Gambar Avatar & Closing)
+# Abaikan semua file di dalam folder uploads, tapi biarkan foldernya tetap ada (jika ada .gitkeep)
+/assets/uploads/*
+!/assets/uploads/.gitkeep
+
+# 2. Data File Dinamis (Activity Logs)
+/data/logs.json
+
+# 3. Environment & Configuration Variables
+# Abaikan file environment jika suatu saat Anda membuatnya
+.env
+.env.local
+.env.*
+
+# 4. System Files (Windows / Mac)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 5. IDE / Editor Folders
+.vscode/
+.idea/
+*.suo
+*.swp
