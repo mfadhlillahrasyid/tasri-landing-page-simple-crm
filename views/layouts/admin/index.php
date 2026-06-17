@@ -1,7 +1,4 @@
 <!doctype html>
-<?php
-$currentUser = AuthController::currentUser();
-?>
 <html lang="id">
 
 <head>
@@ -16,9 +13,13 @@ $currentUser = AuthController::currentUser();
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="<?= e(url('/assets/css/app.css')) ?>?v=font-2">
+    
+    <!-- Hotwire Turbo: Mengubah aplikasi menjadi SPA tanpa reload -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js"></script>
 </head>
 
 <body class="bg-slate-100 text-slate-900 font-poppins">
+    <?php $currentUser = AuthController::currentUser(); ?>
     <div class="min-h-screen lg:flex">
         <aside
             class="sticky top-0 z-30 border-b border-slate-200 bg-white lg:h-screen lg:w-64 lg:border-b-0 lg:border-r">
@@ -38,6 +39,8 @@ $currentUser = AuthController::currentUser();
                     <a class="block py-1.5 px-4 rounded-md text-xs sm:text-sm <?= e(isActive('/admin/settings')) ?>"
                         href="<?= e(url('/admin/settings')) ?>">Settings</a>
                 <?php endif; ?>
+                <a class="block py-1.5 px-4 rounded-md text-xs sm:text-sm <?= e(isActive('/admin/logs')) ?>"
+                    href="<?= e(url('/admin/logs')) ?>">Logs</a>
                 <!-- <a class="admin-nav-link" href="<?= e(url('/')) ?>">Landing</a> -->
             </nav>
         </aside>

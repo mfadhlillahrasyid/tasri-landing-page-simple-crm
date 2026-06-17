@@ -131,12 +131,14 @@ $customerRows = [];
 ?>
 <?php endforeach; ?>
 
+<div id="realtime-customer-table">
 <?php component('table', [
     'class' => 'mt-5',
     'headers' => ['#', 'Nama', 'WhatsApp', 'Kota', 'Marketing', 'Kategori', 'Created At', 'Aksi'],
     'rows' => $customerRows,
     'emptyMessage' => 'Belum ada customer.',
 ]); ?>
+</div>
 
 <?php component('pagination', ['pagination' => $pagination ?? null]); ?>
 
@@ -294,3 +296,32 @@ $customerRows = [];
     ]);
 ?>
 <?php endforeach; ?>
+
+<script>
+    // Hapus interval sebelumnya jika berpindah menu (mencegah bentrok dengan Turbo)
+    if (window.customerPolling) clearInterval(window.customerPolling);
+
+    // Jalankan pengecekan secara diam-diam ke server setiap 5 detik
+    window.customerPolling = setInterval(() => {
+        
+        // Jangan refresh tabel jika Admin sedang fokus mengetik pencarian/filter
+        if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
+
+        // Jangan refresh tabel jika Admin sedang membuka Modal / melihat Detail
+        // (Mencegah modal tertutup tiba-tiba)
+        if (document.querySelector('dialog[open]') || document.querySelector('.modal-open')) return;
+
+        // Ambil HTML terbaru dari server secara AJAX
+        fetch(window.location.href, { headers: { 'Accept': 'text/html' } })
+            .then(res => res.text())
+            .then(html => {
+                // Ekstrak bagian tabel saja dari HTML yang didapat
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.getElementById('realtime-customer-table');
+                if (newTable) {
+                    document.getElementById('realtime-customer-table').innerHTML = newTable.innerHTML;
+                }
+            });
+    }, 5000);
+</script>

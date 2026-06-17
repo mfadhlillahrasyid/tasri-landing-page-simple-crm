@@ -23,6 +23,7 @@ class SettingsController extends BaseAdminController
             isset($_POST['auto_assign_rotated_lead'])
         );
 
+        $this->logActivity('update_settings', 'Memperbarui pengaturan aplikasi');
         $_SESSION['flash']['success'] = 'Settings berhasil disimpan.';
         redirect('/admin/settings');
     }

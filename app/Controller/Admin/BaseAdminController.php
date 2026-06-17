@@ -123,4 +123,20 @@ abstract class BaseAdminController
 
         return $normalized;
     }
+
+    protected function logActivity(string $action, string $description, ?int $targetId = null): void
+    {
+        $currentUser = AuthController::currentUser();
+        $userId = $currentUser ? (int) ($currentUser['id'] ?? 0) : 0;
+
+        if (class_exists('LogRepository')) {
+            LogRepository::create([
+                'user_id' => $userId,
+                'action' => $action,
+                'description' => $description,
+                'target_id' => $targetId,
+                'created_at' => function_exists('app_now') ? app_now() : date('Y-m-d H:i:s'),
+            ]);
+        }
+    }
 }

@@ -111,6 +111,7 @@ class CustomersController extends BaseAdminController
         }
 
         CustomerRepository::updateCategory($id, $leadCategory, $closingImages);
+        $this->logActivity('update_customer_category', 'Mengubah kategori customer ID ' . $id . ' menjadi ' . $leadCategory, $id);
         redirect('/admin/customers');
     }
 
@@ -157,6 +158,7 @@ class CustomersController extends BaseAdminController
         }
 
         CustomerRepository::addClosingImages($id, $closingImages);
+        $this->logActivity('upload_closing_images', 'Mengunggah ' . count($closingImages) . ' gambar closing untuk customer ID ' . $id, $id);
         redirect('/admin/customers');
     }
 
@@ -196,6 +198,7 @@ class CustomersController extends BaseAdminController
         }
 
         CustomerRepository::assign($id, $assignedBy);
+        $this->logActivity('assign_customer', 'Assign customer ID ' . $id . ' ke marketing ID ' . $assignedBy, $id);
         redirect('/admin/customers');
     }
 
@@ -205,6 +208,7 @@ class CustomersController extends BaseAdminController
 
         $id = (int) ($_POST['id'] ?? 0);
         CustomerRepository::delete($id);
+        $this->logActivity('delete_customer', 'Menghapus customer ID ' . $id, $id);
         redirect('/admin/customers');
     }
 

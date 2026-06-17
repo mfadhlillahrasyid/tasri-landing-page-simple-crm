@@ -41,6 +41,7 @@ class UsersController extends BaseAdminController
         $payload['updated_at'] = $now;
 
         UserRepository::create($payload);
+        $this->logActivity('create_user', 'Mendaftarkan user baru: ' . $payload['name']);
         redirect('/admin/users');
     }
 
@@ -102,6 +103,7 @@ class UsersController extends BaseAdminController
         ]);
 
         UserRepository::update($id, $payload);
+        $this->logActivity('update_user', 'Memperbarui data user: ' . ($existing['name'] ?? ''), $id);
         redirect('/admin/users');
     }
 
@@ -119,6 +121,7 @@ class UsersController extends BaseAdminController
         }
 
         UserRepository::deleteMarketing($id);
+        $this->logActivity('delete_user', 'Menghapus user marketing: ' . ($target['name'] ?? ''), $id);
         redirect('/admin/users');
     }
 
@@ -141,7 +144,7 @@ class UsersController extends BaseAdminController
             return null;
         }
 
-        if ($existing === null && !hash_equals($password, $retypePassword)) {
+        if ($existing === null && $password !== $retypePassword) {
             $_SESSION['flash']['error'] = 'Retype password tidak sama dengan password.';
             return null;
         }
@@ -161,7 +164,7 @@ class UsersController extends BaseAdminController
             'role' => $role,
             'whatsapp' => $whatsapp,
             'status' => $status,
-            'password' => $password !== '' ? $password : (string) ($existing['password'] ?? ''),
+            'password' => $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : (string) ($existing['password'] ?? ''),
             'avatar' => $avatarUploads[0] ?? (string) ($existing['avatar'] ?? ''),
         ];
     }
@@ -182,7 +185,7 @@ class UsersController extends BaseAdminController
             return false;
         }
 
-        if (!hash_equals($password, $retypePassword)) {
+        if ($password !== $retypePassword) {
             $_SESSION['flash']['error'] = 'Retype password tidak sama dengan password baru.';
             return false;
         }
@@ -196,7 +199,7 @@ class UsersController extends BaseAdminController
                 return false;
             }
 
-            if (!hash_equals((string) ($existing['password'] ?? ''), $currentPassword)) {
+            if (!password_verify($currentPassword, (string) ($existing['password'] ?? ''))) {
                 $_SESSION['flash']['error'] = 'Password lama tidak sesuai.';
                 return false;
             }

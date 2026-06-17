@@ -10,6 +10,7 @@ require_once __DIR__ . '/app/Enum/leadCategories.php';
 require_once __DIR__ . '/app/Repository/UserRepository.php';
 require_once __DIR__ . '/app/Repository/CustomerRepository.php';
 require_once __DIR__ . '/app/Repository/SettingRepository.php';
+require_once __DIR__ . '/app/Repository/LogRepository.php';
 require_once __DIR__ . '/app/Controller/LandingController.php';
 require_once __DIR__ . '/app/Controller/AuthController.php';
 require_once __DIR__ . '/app/Controller/Admin/BaseAdminController.php';
@@ -17,6 +18,7 @@ require_once __DIR__ . '/app/Controller/Admin/DashboardController.php';
 require_once __DIR__ . '/app/Controller/Admin/CustomersController.php';
 require_once __DIR__ . '/app/Controller/Admin/SettingsController.php';
 require_once __DIR__ . '/app/Controller/Admin/UsersController.php';
+require_once __DIR__ . '/app/Controller/Admin/LogsController.php';
 
 $routes = require __DIR__ . '/routes/Web.php';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';

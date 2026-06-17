@@ -11,6 +11,7 @@ return [
         '/admin/users/create' => [UsersController::class, 'create'],
         '/admin/users/edit' => [UsersController::class, 'edit'],
         '/admin/settings' => [SettingsController::class, 'index'],
+        '/admin/logs' => [LogsController::class, 'index'],
     ],
     'POST' => [
         '/lead' => [LandingController::class, 'submitLead'],

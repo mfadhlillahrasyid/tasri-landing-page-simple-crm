@@ -24,6 +24,17 @@ class AuthController
             ) {
                 $_SESSION['auth_user_id'] = (int) $user['id'];
                 $_SESSION['admin_user_id'] = (int) $user['id'];
+                
+                if (class_exists('LogRepository')) {
+                    LogRepository::create([
+                        'user_id' => (int) $user['id'],
+                        'action' => 'login',
+                        'description' => 'User berhasil login ke dalam sistem.',
+                        'target_id' => null,
+                        'created_at' => function_exists('app_now') ? app_now() : date('Y-m-d H:i:s'),
+                    ]);
+                }
+                
                 redirect('/admin/dashboard');
             }
         }
@@ -34,6 +45,17 @@ class AuthController
 
     public function logout(): void
     {
+        $userId = (int) ($_SESSION['auth_user_id'] ?? $_SESSION['admin_user_id'] ?? 0);
+        if ($userId > 0 && class_exists('LogRepository')) {
+            LogRepository::create([
+                'user_id' => $userId,
+                'action' => 'logout',
+                'description' => 'User logout dari sistem.',
+                'target_id' => null,
+                'created_at' => function_exists('app_now') ? app_now() : date('Y-m-d H:i:s'),
+            ]);
+        }
+
         unset($_SESSION['auth_user_id']);
         unset($_SESSION['admin_user_id']);
         redirect('/login');
