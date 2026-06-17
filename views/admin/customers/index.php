@@ -56,9 +56,9 @@ $customerRows = [];
     $assignedHtml = empty($customer['assigned_by'])
         ? badge('Belum assigned', 'bg-slate-100 border-slate-200 text-slate-700')
         : '<div class="flex items-center gap-2">'
-            . avatarHtml($assigned['avatar'] ?? '', $assigned['name'] ?? 'Unknown', 'h-8 w-8')
-            . '<span class="font-normal">' . e($assigned['name'] ?? 'Unknown') . '</span>'
-            . '</div>';
+        . avatarHtml($assigned['avatar'] ?? '', $assigned['name'] ?? 'Unknown', 'h-8 w-8')
+        . '<span class="font-normal">' . e($assigned['name'] ?? 'Unknown') . '</span>'
+        . '</div>';
     $actions = '';
 
     ob_start();
@@ -69,6 +69,30 @@ $customerRows = [];
         'attributes' => ['data-customer-modal-open' => $modalId],
     ]);
     $actions .= ob_get_clean();
+
+    // Setelah: $actions .= ob_get_clean(); (tombol View)
+    if (!empty($customer['whatsapp']) && !empty($customer['assigned_by'])) {
+        $waNumber = preg_replace('/[^0-9]/', '', $customer['whatsapp']);
+        if (str_starts_with($waNumber, '0')) {
+            $waNumber = '62' . substr($waNumber, 1);
+        }
+        $assignedName = $assigned['name'] ?? 'Marketing';
+        $customerName = $customer['name'] ?? 'Bapak/Ibu';
+        $waMessage = urlencode(
+            "Halo Ibu/Bapak {$customerName}, saya {$assignedName} dari Taman Asoka Asri. " .
+            "Saya ingin menginformasikan mengenai properti kami yang saat ini sedang tersedia. " .
+            "Apakah Bapak/Ibu berkenan untuk berdiskusi lebih lanjut?"
+        );
+        ob_start();
+        component('button', [
+            'as' => 'a',
+            'href' => 'https://wa.me/' . e($waNumber) . '?text=' . $waMessage,
+            'target' => '_blank',
+            'label' => 'Whatsapp',
+            'class' => 'ml-1 bg-green-600 px-2 py-1 text-white hover:bg-green-700',
+        ]);
+        $actions .= ob_get_clean();
+    }
 
     if (!$isClosed && $isCurrentMarketing && empty($customer['assigned_by'])) {
         $actions .= '<form class="inline" method="post" action="' . e(url('/admin/customers/assign')) . '" data-confirm="Assign customer ini ke kamu?" data-confirm-title="Assign Customer" data-confirm-action="Assign">';
@@ -134,6 +158,29 @@ $customerRows = [];
     <p class="mt-1 text-sm text-slate-500">
         <?= e($customer['whatsapp'] ?? '') ?>
     </p>
+
+    <?php if (!empty($customer['whatsapp']) && !empty($customer['assigned_by'])): ?>
+        <?php
+        $waNumber = preg_replace('/[^0-9]/', '', $customer['whatsapp']);
+        if (str_starts_with($waNumber, '0')) {
+            $waNumber = '62' . substr($waNumber, 1);
+        }
+        $assignedName = $assigned['name'] ?? 'Marketing';
+        $customerName = $customer['name'] ?? 'Bapak/Ibu';
+        $waMessage = urlencode(
+            "Halo Ibu/Bapak {$customerName}, saya {$assignedName} dari Taman Asoka Asri. " .
+            "Saya ingin menginformasikan mengenai properti kami yang saat ini sedang tersedia. " .
+            "Apakah Bapak/Ibu berkenan untuk berdiskusi lebih lanjut?"
+        );
+        ?>
+        <?php component('button', [
+            'as' => 'a',
+            'href' => 'https://wa.me/' . e($waNumber) . '?text=' . $waMessage,
+            'label' => 'Hubungi via WhatsApp',
+            'class' => 'mt-2 bg-green-600 px-3 py-1.5 text-white hover:bg-green-700',
+            'attributes' => ['target' => '_blank'],
+        ]); ?>
+    <?php endif; ?>
 
     <?php if ($isClosed): ?>
         <div class="mt-4 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
@@ -208,9 +255,9 @@ $customerRows = [];
                 <?= empty($customer['assigned_by'])
                     ? badge('Belum assigned', 'bg-slate-100 border-slate-200 text-slate-700')
                     : '<div class="flex items-center gap-2">'
-                        . avatarHtml($assigned['avatar'] ?? '', $assigned['name'] ?? 'Unknown', 'h-8 w-8')
-                        . '<span>' . e($assigned['name'] ?? 'Unknown') . '</span>'
-                        . '</div>' ?>
+                    . avatarHtml($assigned['avatar'] ?? '', $assigned['name'] ?? 'Unknown', 'h-8 w-8')
+                    . '<span>' . e($assigned['name'] ?? 'Unknown') . '</span>'
+                    . '</div>' ?>
             </div>
         </div>
         <div>
@@ -227,6 +274,7 @@ $customerRows = [];
             <p class="text-xs font-medium uppercase text-slate-400">Updated At</p>
             <p class="mt-1 text-sm font-semibold text-slate-700"><?= e(formatDate($customer['updated_at'] ?? '')) ?></p>
         </div>
+
         <?php if (!empty($customer['closing_images'])): ?>
             <div class="sm:col-span-2">
                 <p class="text-xs font-medium uppercase text-slate-400">Gambar Closing</p>

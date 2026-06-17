@@ -6,7 +6,7 @@ $href = $href ?? '#';
 $target = $target ?? null;
 $rel = $rel ?? null;
 $class = $class ?? 'bg-blue-700 text-white hover:bg-blue-800';
-$baseClass = 'inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-300';
+$baseClass = 'inline-flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-xs font-medium transition-all duration-300';
 $attributes = $attributes ?? [];
 $dataAttributes = $dataAttributes ?? $dataAttrs ?? [];
 
